@@ -1,0 +1,8 @@
+# Copyright (c) 2022 aasaam software development group
+version: "3"
+
+services:
+  nginx-extra:
+    image: ghcr.io/aasaam/grafana:latest
+    container_name: grafana
+    hostname: grafana
