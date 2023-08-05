@@ -33,7 +33,7 @@ jobs:
 
           export GRAFANA_VERSION_V9=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
 
-          export GRAFANA_VERSION_V10=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
+          export GRAFANA_VERSION_V10=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^10.' | sort --version-sort | tail -n 1 | awk '{print $1}')
 
           docker build \
             --build-arg "GRAFANA_VERSION=$GRAFANA_VERSION_V9" \
