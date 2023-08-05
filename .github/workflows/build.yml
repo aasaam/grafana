@@ -48,4 +48,8 @@ jobs:
           docker push ghcr.io/aasaam/grafana:9
           docker push ghcr.io/aasaam/grafana:10
 
+          docker tag ghcr.io/aasaam/grafana:10 ghcr.io/aasaam/grafana:latest
+
+          docker push ghcr.io/aasaam/grafana:latest
+
 
