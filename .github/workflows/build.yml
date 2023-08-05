@@ -25,42 +25,27 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push 9
+      - name: Builds
         run: |
-
-          cd /tmp
-          rm -rf build-dir
-          mkdir /tmp/build-dir
-
-          export GRAFANA_VERSION=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
 
           git clone --depth 1 https://github.com/grafana/grafana.git
           cd grafana/packaging/docker/custom
 
+          export GRAFANA_VERSION_V9=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
+
+          export GRAFANA_VERSION_V10=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
+
           docker build \
-            --build-arg "GRAFANA_VERSION=$GRAFANA_VERSION" \
+            --build-arg "GRAFANA_VERSION=$GRAFANA_VERSION_V9" \
             --build-arg "GF_INSTALL_PLUGINS=grafana-clickhouse-datasource,grafana-sentry-datasource,grafana-mqtt-datasource,grafana-opensearch-datasource,grafana-googlesheets-datasource,grafana-worldmap-panel,grafana-clock-panel,grafana-polystat-panel" \
             -t ghcr.io/aasaam/grafana:9 .
 
-          docker push ghcr.io/aasaam/grafana:9
-
-
-      - name: Build and push 10
-        run: |
-
-          cd /tmp
-          rm -rf build-dir
-          mkdir /tmp/build-dir
-
-          export GRAFANA_VERSION=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
-
-          git clone --depth 1 https://github.com/grafana/grafana.git
-          cd grafana/packaging/docker/custom
-
           docker build \
-            --build-arg "GRAFANA_VERSION=$GRAFANA_VERSION" \
+            --build-arg "GRAFANA_VERSION=$GRAFANA_VERSION_V10" \
             --build-arg "GF_INSTALL_PLUGINS=grafana-clickhouse-datasource,grafana-sentry-datasource,grafana-mqtt-datasource,grafana-opensearch-datasource,grafana-googlesheets-datasource,grafana-worldmap-panel,grafana-clock-panel,grafana-polystat-panel" \
             -t ghcr.io/aasaam/grafana:10 .
 
+          docker push ghcr.io/aasaam/grafana:9
           docker push ghcr.io/aasaam/grafana:10
-          docker push ghcr.io/aasaam/grafana:latest
+
+
