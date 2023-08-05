@@ -28,6 +28,10 @@ jobs:
       - name: Build and push 9
         run: |
 
+          cd /tmp
+          rm -rf build-dir
+          mkdir /tmp/build-dir
+
           export GRAFANA_VERSION=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
 
           git clone --depth 1 https://github.com/grafana/grafana.git
@@ -43,6 +47,10 @@ jobs:
 
       - name: Build and push 10
         run: |
+
+          cd /tmp
+          rm -rf build-dir
+          mkdir /tmp/build-dir
 
           export GRAFANA_VERSION=$(curl -Ls https://api.github.com/repos/grafana/grafana/releases | jq -r '.[].name' | grep -v 'unreleased' | grep '^9.' | sort --version-sort | tail -n 1 | awk '{print $1}')
 
